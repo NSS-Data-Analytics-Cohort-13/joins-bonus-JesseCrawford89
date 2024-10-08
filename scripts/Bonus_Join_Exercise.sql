@@ -1,20 +1,22 @@
 --Question 1: Find the total worldwide gross and average imdb rating by decade. Then alter your query so it returns JUST the second highest average imdb rating and its decade. This should result in a table with just one row.
 
 SELECT AVG(rev.worldwide_gross) AS wwg_avg
-		, AVG(rat.imdb_rating) AS imdb_avg
-		, s.release_year AS year
+		,	AVG(rat.imdb_rating) AS imdb_avg
+		,	(ROUND((s.release_year/10), 0)*10) AS decade
 FROM revenue AS rev
 RIGHT JOIN rating AS rat
 	ON rev.movie_id=rat.movie_id
 LEFT JOIN specs AS s
 	ON rev.movie_id = s.movie_id
-GROUP BY s.release_year
-ORDER BY year DESC
+GROUP BY decade
+ORDER BY imdb_avg DESC
+OFFSET 1 FETCH next 1 row only;
 
---Answer:
+--Answer: 1990 had the 2nd highest IMDB average rating.
 
 /*Question 2: Our goal in this question is to compare the worldwide gross for movies compared to their sequels.   
 	a.	Start by finding all movies whose titles end with a space and then the number 2.*/  
+
 	
 	--b.	For each of these movies, create a new column showing the original film’s name by removing the last two characters of the film title. For example, for the film “Cars 2”, the original title would be “Cars”.
 	
