@@ -17,8 +17,16 @@ OFFSET 1 FETCH next 1 row only;
 /*Question 2: Our goal in this question is to compare the worldwide gross for movies compared to their sequels.   
 	a.	Start by finding all movies whose titles end with a space and then the number 2.*/  
 
-	
+SELECT s.film_title AS Sequel_Title, r.worldwide_gross AS WW_Gross
+FROM specs AS s
+RIGHT JOIN revenue AS r
+	USING (movie_id)
+WHERE s.film_title LIKE '% 2'
+GROUP BY Sequel_Title, WW_Gross
+
 	--b.	For each of these movies, create a new column showing the original film’s name by removing the last two characters of the film title. For example, for the film “Cars 2”, the original title would be “Cars”.
+
+
 	
 	--c.	Bonus: This method will not work for movies like “Harry Potter and the Deathly Hallows: Part 2”, where the original title should be “Harry Potter and the Deathly Hallows: Part 1”. Modify your query to fix these issues.  
 	
