@@ -26,7 +26,24 @@ GROUP BY Sequel_Title, WW_Gross
 
 	--b.	For each of these movies, create a new column showing the original film’s name by removing the last two characters of the film title. For example, for the film “Cars 2”, the original title would be “Cars”.
 
-
+SELECT s.film_title AS Sequel_Title
+	,	r.worldwide_gross AS WW_Gross
+	,	CASE
+			WHEN (LEFT(s.film_title, -2)) = 'Harry Potter and the Deathly Hallows: Part'
+				THEN 'Harry Potter and the Deathly Hallows: Part 1'
+			WHEN (LEFT(s.film_title, -2)) = 'The Hunger Games: Mockingjay - Part'
+				THEN 'The Hunger Games: Mockingjay - Part 1'
+			WHEN (LEFT(s.film_title, -2)) = 'The Twilight Saga: Breaking Dawn - Part'
+				THEN 'The Twilight Saga: Breaking Dawn - Part 1'
+			WHEN (LEFT(s.film_title, -2)) = 'Guardians of the Galaxy Vol.'
+				THEN 'Guardians of the Galaxy Vol. 1'
+				ELSE LEFT(s.film_title, -2)
+				END AS OG_Title
+FROM specs AS s
+RIGHT JOIN revenue AS r
+	USING (movie_id)
+WHERE s.film_title LIKE '% 2'
+GROUP BY Sequel_Title, WW_Gross
 	
 	--c.	Bonus: This method will not work for movies like “Harry Potter and the Deathly Hallows: Part 2”, where the original title should be “Harry Potter and the Deathly Hallows: Part 1”. Modify your query to fix these issues.  
 	
